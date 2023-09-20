@@ -189,6 +189,15 @@ function animate(){
         if (asteroid.position.x + asteroid.radius < 0 || asteroid.position.x - asteroid.position.radius > canvas.width || asteroid.position.y - asteroid.radius > canvas.height || asteroid.position.y + asteroid.radius < 0){
             asteroids.splice(i,1);
         }
+
+        for (let j = projectiles.length - 1; j >=0; j--){
+            const projectile = projectiles[j];
+
+            if (circleCollision(asteroid, projectile)){
+                asteroids.splice(i,1);
+                projectiles.splice(j,1);
+            }
+        }
     }
 
     if (keys.w.pressed){
