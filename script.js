@@ -93,6 +93,10 @@ function animate(){
     for (let i = projectiles.length - 1; i >=0; i--){
         const projectile = projectiles[i];
         projectile.update();
+
+        if (projectile.position.x + projectile.radius < 0 || projectile.position.x - position.radium > canvas.width || projectile.position.y - projectile.radius > canvas.height || projectile.position.y + projectile.radius < 0){
+            projectile.splice(i,1);
+        }
     }
 
     if (keys.w.pressed){
