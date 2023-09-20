@@ -57,6 +57,7 @@ const keys = {
 }
 
 const SPEED = 2;
+const ROTATIONAL_SPEED = 0.03;
 
 function animate(){
     window.requestAnimationFrame(animate);
@@ -73,10 +74,10 @@ function animate(){
     }
 
     if (keys.d.pressed){
-        player.rotation += 0.01;
+        player.rotation += ROTATIONAL_SPEED;
     }
     else if (keys.a.pressed){
-        player.rotation -= 0.01;
+        player.rotation -= ROTATIONAL_SPEED;
     }
 
 }
