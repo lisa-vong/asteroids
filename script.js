@@ -59,6 +59,28 @@ class Projectile{
     }
 }
 
+class Asteroid{
+    constructor({position, velocity}){
+        this.position = position;
+        this.velocity = velocity;
+        this.radius = 50 * Math.random() + 10;
+    }
+
+    draw(){
+        c.beginPath();
+        c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, false);
+        c.closePath();
+        c.strokeStyle = "white";
+        c.stroke();
+    }
+
+    update(){
+        this.draw();
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+    }
+}
+
 const player = new Player({
     position: {x: canvas.width/2, y: canvas.height/2},
     velocity: {x: 0, y: 0}
