@@ -104,6 +104,21 @@ const FRICTION = 0.95;
 const PROJECTILE_SPEED = 3;
 
 const projectiles = [];
+const asteroids = [];
+
+window.setInterval(() => {
+    asteroids.push(new Asteroid({
+        position: {
+            x: 0,
+            y: 0,
+        },
+        velocity: {
+            x: 1,
+            y: 0,
+        },
+    })
+);
+}, 3000)
 
 function animate(){
     window.requestAnimationFrame(animate);
@@ -119,6 +134,11 @@ function animate(){
         if (projectile.position.x + projectile.radius < 0 || projectile.position.x - position.radium > canvas.width || projectile.position.y - projectile.radius > canvas.height || projectile.position.y + projectile.radius < 0){
             projectile.splice(i,1);
         }
+    }
+
+    for (let i = asteroids.length - 1; i >=0; i--){
+        const asteroid = asteroids[i];
+        asteroid.update();
     }
 
     if (keys.w.pressed){
@@ -163,7 +183,7 @@ window.addEventListener("keydown", (event) => {
                     y: Math.sin(player.rotation) * PROJECTILE_SPEED,
                 },
             })
-        )
+        );
         break;
     }
 })
