@@ -56,6 +56,8 @@ const keys = {
     },
 }
 
+const SPEED = 2;
+
 function animate(){
     window.requestAnimationFrame(animate);
     c.fillStyle = "black";
@@ -66,8 +68,8 @@ function animate(){
     player.velocity.x = 0;
     player.velocity.y = 0;
     if (keys.w.pressed){
-        player.velocity.x = Math.cos(player.rotation);
-        player.velocity.y = Math.sin(player.rotation);
+        player.velocity.x = Math.cos(player.rotation) * SPEED;
+        player.velocity.y = Math.sin(player.rotation) * SPEED;
     }
 
     if (keys.d.pressed){
