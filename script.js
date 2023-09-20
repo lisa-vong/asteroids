@@ -60,10 +60,10 @@ class Projectile{
 }
 
 class Asteroid{
-    constructor({position, velocity}){
+    constructor({position, velocity, radius}){
         this.position = position;
         this.velocity = velocity;
-        this.radius = 50 * Math.random() + 10;
+        this.radius = radius;
     }
 
     draw(){
@@ -107,17 +107,50 @@ const projectiles = [];
 const asteroids = [];
 
 window.setInterval(() => {
-    asteroids.push(new Asteroid({
-        position: {
-            x: 0,
-            y: 0,
-        },
-        velocity: {
-            x: 1,
-            y: 0,
-        },
-    })
-);
+    const index = Math.floor(Math.random() * 4);
+    let x, y, vx, vy;
+    let radius = 50 * Math.random() + 10;
+
+    switch (index){
+        case 0:
+            x = 0 - radius;
+            y = Math.random() * canvas.height;
+            vx = 1;
+            vy = 0;
+            break;
+         case 1:
+            x = Math.random() * canvas.width;
+            y = canvas.height + radius;
+            vx = 0;
+            vy = -1;
+            break;
+         case 2:
+            x = canvas.width + radius;
+            y = Math.random() * canvas.height;
+            vx = -1;
+            vy = 0;
+            break;
+         case 3:
+            x = Math.random() * canvas.width;
+            y = 0 - radius;
+            vx = 0;
+            vy = 1;
+            break;
+    }
+
+    asteroids.push(
+        new Asteroid({
+            position: {
+                x: x,
+                y: y,
+            },
+            velocity: {
+                x: vx,
+                y: vy,
+            },
+            radius,
+        })
+    );
 }, 3000)
 
 function animate(){
@@ -131,14 +164,18 @@ function animate(){
         const projectile = projectiles[i];
         projectile.update();
 
-        if (projectile.position.x + projectile.radius < 0 || projectile.position.x - position.radium > canvas.width || projectile.position.y - projectile.radius > canvas.height || projectile.position.y + projectile.radius < 0){
-            projectile.splice(i,1);
+        if (projectile.position.x + projectile.radius < 0 || projectile.position.x - projectile.position.radius > canvas.width || projectile.position.y - projectile.radius > canvas.height || projectile.position.y + projectile.radius < 0){
+            projectiles.splice(i,1);
         }
     }
 
     for (let i = asteroids.length - 1; i >=0; i--){
         const asteroid = asteroids[i];
         asteroid.update();
+
+        if (asteroid.position.x + asteroid.radius < 0 || asteroid.position.x - asteroid.position.radius > canvas.width || asteroid.position.y - asteroid.radius > canvas.height || asteroid.position.y + asteroid.radius < 0){
+            asteroids.splice(i,1);
+        }
     }
 
     if (keys.w.pressed){
@@ -156,7 +193,6 @@ function animate(){
     else if (keys.a.pressed){
         player.rotation -= ROTATIONAL_SPEED;
     }
-
 }
 
 animate();
@@ -173,18 +209,19 @@ window.addEventListener("keydown", (event) => {
             keys.d.pressed = true;
             break;
         case "Space":
-            projectiles.push(new Projectile({
-                position: {
-                    x: player.position.x + Math.cos(player.rotation) * 30,
-                    y: player.position.y + Math.sin(player.rotation) * 30,
-                },
-                velocity: {
-                    x: Math.cos(player.rotation) * PROJECTILE_SPEED,
-                    y: Math.sin(player.rotation) * PROJECTILE_SPEED,
-                },
-            })
-        );
-        break;
+            projectiles.push(
+                new Projectile({
+                    position: {
+                        x: player.position.x + Math.cos(player.rotation) * 30,
+                        y: player.position.y + Math.sin(player.rotation) * 30,
+                    },
+                    velocity: {
+                        x: Math.cos(player.rotation) * PROJECTILE_SPEED,
+                        y: Math.sin(player.rotation) * PROJECTILE_SPEED,
+                    },
+                })
+            );
+            break;
     }
 })
 
