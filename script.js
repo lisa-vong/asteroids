@@ -37,6 +37,28 @@ class Player{
     }
 }
 
+class Projectile{
+    constructor({position, velocity}){
+        this.position = position;
+        this.velocity = velocity;
+        this.radius = 5;
+    }
+
+    draw(){
+        c.beginPath();
+        c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, false);
+        c.closePath();
+        c.fillStyle = "white";
+        c.fill();
+    }
+
+    update(){
+        this.draw();
+        this.position += this.velocity.x;
+        this.position += this.velocity.y;
+    }
+}
+
 const player = new Player({
     position: {x: canvas.width/2, y: canvas.height/2},
     velocity: {x: 0, y: 0}
